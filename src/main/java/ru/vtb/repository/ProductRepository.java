@@ -1,8 +1,7 @@
-package ru.vtb.dao;
+package ru.vtb.repository;
 
 import org.springframework.stereotype.Component;
 import ru.vtb.model.Product;
-import ru.vtb.model.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,11 +12,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
-public class ProductDAO {
+public class ProductRepository {
 
     private final Connection connection;
 
-    public ProductDAO(Connection connection) {
+    public ProductRepository(Connection connection) {
         this.connection = connection;
     }
 
