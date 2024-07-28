@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: JavaProSpring
+
+server:
+  port: 8282

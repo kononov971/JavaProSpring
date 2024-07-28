@@ -5,6 +5,9 @@ import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+
 @Configuration
 public class AppConfiguration {
     @Bean
@@ -24,7 +27,11 @@ public class AppConfiguration {
     }
 
     @Bean
-    public String aaa() {
-        return "aaaa";
+    public Connection connection() {
+        try {
+            return hikariDataSource().getConnection();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
