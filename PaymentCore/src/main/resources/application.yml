@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: PaymentCore
+
+server:
+  port: 8282
+
+integrations:
+  executors:
+    products-executor-client:
+      url: "http://localhost:8281/api/v1/products"
+      connect-timeout: 1s
+      read-timeout: 30s

@@ -77,4 +77,24 @@ public class ProductRepository {
         }
 
     }
+
+    public Product update(Product product) {
+        String sql = "UPDATE products SET account_num=?, balance=?, type=?, user_id=? WHERE id=?";
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setLong(1, product.getAccountNum());
+            preparedStatement.setBigDecimal(2, product.getBalance());
+            preparedStatement.setString(3, product.getType());
+            preparedStatement.setLong(4, product.getUserId());
+            preparedStatement.setLong(5, product.getId());
+
+            preparedStatement.executeUpdate();
+
+            return product;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
