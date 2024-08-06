@@ -2,14 +2,13 @@ package ru.vtb.controller;
 
 import org.springframework.web.bind.annotation.*;
 import ru.vtb.dto.ProductDTO;
-import ru.vtb.model.Product;
 import ru.vtb.service.ProductService;
 
+import java.math.BigDecimal;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/products")
+@RequestMapping("/api/v1/products")
 public class ProductController {
 
     private final ProductService productService;
@@ -27,5 +26,11 @@ public class ProductController {
     public List<ProductDTO> getProductsByUser(@RequestParam long userId) {
         return productService.findByUser(userId);
     }
+
+    @PostMapping("/payment/{id}")
+    public ProductDTO executePayment(@PathVariable long id, @RequestBody BigDecimal paymentSum) {
+        return productService.executePayment(id, paymentSum);
+    }
+
 
 }
