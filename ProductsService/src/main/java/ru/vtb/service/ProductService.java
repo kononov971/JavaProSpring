@@ -1,11 +1,11 @@
 package ru.vtb.service;
 
 import org.springframework.stereotype.Service;
+import ru.vtb.entity.Product;
 import ru.vtb.exception.PaymentException;
 import ru.vtb.repository.ProductRepository;
 import ru.vtb.dto.ProductDTO;
 import ru.vtb.exception.ProductException;
-import ru.vtb.model.Product;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -21,17 +21,17 @@ public class ProductService {
     }
 
     public ProductDTO findOne(long id) {
-        Product product = productRepository.get(id).orElseThrow(() -> new ProductException("Product with id " + id + " not found"));
+        Product product = productRepository.findById(id).orElseThrow(() -> new ProductException("Product with id " + id + " not found"));
 
         return productDTOFromProduct(product);
     }
 
-    public List<ProductDTO> findByUser(long userId) {
-        return productRepository.getByUser(userId).stream().map(p -> productDTOFromProduct(p)).collect(Collectors.toList());
+    public List<ProductDTO> findByUserId(Long userId) {
+        return productRepository.findByUserId(userId).stream().map(p -> productDTOFromProduct(p)).collect(Collectors.toList());
     }
 
     public ProductDTO executePayment(long id, BigDecimal paymentSum) {
-        Product product = productRepository.get(id).orElseThrow(() -> new ProductException("Product with id " + id + " not found"));
+        Product product = productRepository.findById(id).orElseThrow(() -> new ProductException("Product with id " + id + " not found"));
 
         BigDecimal balance = product.getBalance();
         if (balance.compareTo(paymentSum) < 0) {
@@ -39,7 +39,7 @@ public class ProductService {
         } else {
             balance = balance.subtract(paymentSum);
             product.setBalance(balance);
-            productRepository.update(product);
+            productRepository.save(product);
         }
 
         return productDTOFromProduct(product);
@@ -51,7 +51,7 @@ public class ProductService {
                 product.getAccountNum(),
                 product.getBalance(),
                 product.getType(),
-                product.getUserId()
+                product.getUser().getId()
         );
     }
 }

@@ -1,37 +1,29 @@
 package ru.vtb.service;
 
 import org.springframework.stereotype.Service;
-import ru.vtb.dao.UserDAO;
-import ru.vtb.model.User;
+import ru.vtb.entity.User;
+import ru.vtb.repository.UserRepository;
 
 import java.util.List;
 
 @Service
 public class UserService {
 
-    private final UserDAO userDAO;
+    private final UserRepository userRepository;
 
-    public UserService(UserDAO userDAO) {
-        this.userDAO = userDAO;
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
-    public User createUser(String name) {
-        return userDAO.save(new User(name));
-    }
-
-    public boolean deleteUser(long id) {
-        return userDAO.delete(id);
-    }
-
-    public User updateUser(User user) {
-        return userDAO.update(user);
+    public void deleteUser(Long id) {
+        userRepository.deleteById(id);
     }
 
     public User findOne(long id) {
-        return userDAO.get(id).orElse(null);
+        return userRepository.findById(id).orElse(null);
     }
 
     public List<User> findAll() {
-        return userDAO.getAll();
+        return userRepository.findAll();
     }
 }
