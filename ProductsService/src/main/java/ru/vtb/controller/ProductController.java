@@ -24,7 +24,7 @@ public class ProductController {
 
     @GetMapping()
     public List<ProductDTO> getProductsByUser(@RequestParam long userId) {
-        return productService.findByUser(userId);
+        return productService.findByUserId(userId);
     }
 
     @PostMapping("/payment/{id}")
